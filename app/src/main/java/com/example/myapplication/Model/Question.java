@@ -11,6 +11,15 @@ public class Question {
 
     public LinkedList<Integer> correctAnswers;
 
+    /**
+     * Constructor
+     * @param question the Question as a String
+     * @param c1 choice 1
+     * @param c2 choice 2
+     * @param c3 choice 3
+     * @param c4 choice 3
+     * @param correctAnswers linkedlist with integers, with the correct choices
+     */
     public Question(String question, String c1, String c2, String c3, String c4, LinkedList<Integer> correctAnswers) {
         Question = question;
         choice1 = c1;
