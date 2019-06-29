@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "547885560339",
+    "firebase_url": "https://meinss19.firebaseio.com",
+    "project_id": "meinss19",
+    "storage_bucket": "meinss19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547885560339:android:13c3c6a65bcbec53",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547885560339-cgdra2t4dl3iih95l8v0l3vk7j22cvb8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhohmp3AsF3bT64AwYBI93CueQtGbetxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547885560339-cgdra2t4dl3iih95l8v0l3vk7j22cvb8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
