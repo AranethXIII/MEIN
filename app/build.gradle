@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdkVersion 18
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -25,4 +25,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(path: ':marytts-builder-5.2-jar-with-dependencies')
+    implementation project(path: ':voice-cmu-slt-hsmm-5.2')
+    implementation project(path: ':voice-bits3-hsmm-5.2')
+    implementation project(path: ':marytts-lang-de-5.2')
+    implementation project(path: ':marytts-lang-en-5.2')
+    implementation project(path: ':voice-dfki-poppy-hsmm-5.2')
+    implementation project(path: ':voice-bits1-hsmm-5.2')
+    implementation project(path: ':tritonus-share-0.3.7-2')
+    implementation project(path: ':voice-cmu-rms-hsmm-5.2')
 }

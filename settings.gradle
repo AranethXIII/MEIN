@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':marytts-builder-5.2-jar-with-dependencies', ':marytts-lang-de-5.2', ':marytts-lang-en-5.2', ':tritonus-share-0.3.7-2', ':voice-bits1-hsmm-5.2', ':voice-bits3-hsmm-5.2', ':voice-cmu-rms-hsmm-5.2', ':voice-cmu-slt-hsmm-5.2', ':voice-dfki-poppy-hsmm-5.2'
