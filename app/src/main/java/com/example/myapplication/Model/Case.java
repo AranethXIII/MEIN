@@ -1,4 +1,4 @@
 package com.example.myapplication.Model;
 
-public class Database {
+public class Case {
 }

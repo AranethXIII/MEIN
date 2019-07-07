@@ -13,14 +13,19 @@ import java.util.Map;
 
 public abstract class FirestoreConnection<T> {
 
-   protected void addDocument(final FirestoreWrapper<T> wrapper){
+    /**
+     * saves the date from the wrapper into the db
+     * @param wrapper wrapper with the data
+     * @param id String with the id for the object in the db
+     */
+   protected void addDocument(final FirestoreWrapper<T> wrapper,String id){
       wrapper.postPending();
       firestore.collection(getCollectionPath()).add(wrapper.getData().getValue())
               .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                 @Override
-                 public void onSuccess(DocumentReference documentReference) {
-                    wrapper.postSuccess();
-                 }
+                  @Override
+                  public void onSuccess(DocumentReference documentReference) {
+                      wrapper.postSuccess();
+                  }
               })
               .addOnFailureListener(new OnFailureListener() {
                  @Override
@@ -30,6 +35,11 @@ public abstract class FirestoreConnection<T> {
               });
    }
 
+    /**
+     * loads document from database
+     * @param wrapper wrapper-Object which will get the data
+     * @param path getCollection() + id of the object in the db
+     */
    protected void getDocument(final FirestoreWrapper<T> wrapper, String path){
       wrapper.postPending();
       firestore.document(path).get()
@@ -69,7 +79,7 @@ public abstract class FirestoreConnection<T> {
               });
    }
 
-   FirestoreConnection(){
+   public FirestoreConnection(){
       firestore=FirebaseFirestore.getInstance();
       FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
               .setTimestampsInSnapshotsEnabled(true)
