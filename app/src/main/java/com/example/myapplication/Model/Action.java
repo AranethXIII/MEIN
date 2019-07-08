@@ -14,6 +14,7 @@ public class Action extends FirestoreConnection {
 
 //==============fields
 
+    String dbId;
     String state; // situation
     String description; // action taken
     HashMap<String, ArrayList<String>> continuation; // follow up actions
@@ -87,9 +88,17 @@ public class Action extends FirestoreConnection {
 //==============constr
 
     public Action() {
-        // TODO Auto-generated constructor stub
         this.continuation = new HashMap<String, ArrayList<String>>();
     }
+
+    public Action(String state, String description) {
+        this.state = state;
+        this.description = description;
+        this.continuation = new HashMap<String, ArrayList<String>>();
+    }
+
+
+//===========firestore methods
 
     @Override
     protected String getCollectionPath() {
@@ -112,12 +121,6 @@ public class Action extends FirestoreConnection {
         action.setDescription((String) map.get("description"));
         action.setCotinuation((HashMap<String, ArrayList<String>>) map.get("contunuation"));
         return action;
-    }
-
-    public Action(String state, String description) {
-        this.state = state;
-        this.description = description;
-        this.continuation = new HashMap<String, ArrayList<String>>();
     }
 
 //==========tostring
