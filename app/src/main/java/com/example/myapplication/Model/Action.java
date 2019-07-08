@@ -39,7 +39,7 @@ public class Action extends FirestoreConnection {
     /**
      * writes this object into the db
      */
-    public String write(String id) {
+    public void write(String id) {
 
         Action action = new Action();
         action.setState(this.state);
@@ -49,7 +49,7 @@ public class Action extends FirestoreConnection {
         wrapper.setData(action);
 
         addDocument(wrapper, id);
-        return wrapper.getData().getValue().toString();
+
     }
 
     public FirestoreWrapper<Action> load(String id) {
@@ -111,7 +111,7 @@ public class Action extends FirestoreConnection {
         action.setState((String) map.get("state"));
         action.setDescription((String) map.get("description"));
         action.setCotinuation((HashMap<String, ArrayList<String>>) map.get("contunuation"));
-        return null;
+        return action;
     }
 
     public Action(String state, String description) {

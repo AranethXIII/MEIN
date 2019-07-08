@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import com.example.myapplication.Firestore.FirestoreWrapper;
 import com.example.myapplication.Model.Action;
 import com.example.myapplication.R;
+import com.google.api.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         final TextView tex=findViewById(R.id.Questionfield);
+
 
         Action action=new Action();
         action.setState("blah");
