@@ -1,7 +1,6 @@
 package com.example.myapplication.View;
 
 
-
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -10,6 +9,7 @@ import androidx.lifecycle.Observer;
 
 import com.example.myapplication.Firestore.FirestoreWrapper;
 import com.example.myapplication.Model.Action;
+import com.example.myapplication.Model.Case;
 import com.example.myapplication.R;
 import com.google.api.Context;
 
@@ -23,9 +23,9 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        final TextView tex=findViewById(R.id.Questionfield);
+        final TextView tex = findViewById(R.id.Questionfield);
 
-
+        /*
         Action action=new Action();
         action.setState("blah");
         action.setDescription("the humans are dead");
@@ -49,5 +49,75 @@ public class Game extends AppCompatActivity {
                 }
             }
         });
+
+        Case case1 = new Case();
+        case1.setDescription("case1");
+        case1.setResponses(new ArrayList<String>());
+        case1.addResponse("a");
+        case1.addResponse("b");
+        case1.addResponse("c");
+        case1.write("1");
+
+        Case case3=new Case();
+        case3.setDescription("case2");
+        case1.setResponses(new ArrayList<String>());
+        case1.addResponse("Fisch");
+        case1.addResponse("Schinken");
+        case1.addResponse("Banane");
+        case1.write("2");
+
+        Case case2 = new Case();
+        final FirestoreWrapper<Case> c = case2.load("1");
+        c.getStatus().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 2) {
+                    tex.append(c.getData().getValue().getDescription());
+                    for (String s : c.getData().getValue().getResponses()) {
+                        tex.append(" " + s);
+                    }
+                    tex.append("\n");
+                }
+            }
+        });
+
+        final FirestoreWrapper<Case> c3= case2.load("2");
+        c3.getStatus().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 2) {
+                    tex.append(c3.getData().getValue().getDescription());
+                    for (String s : c3.getData().getValue().getResponses()) {
+                        tex.append(" " + s);
+                    }
+                    tex.append("\n");
+                }
+            }
+        });*/
+        Case testLoad = new Case();
+        ArrayList<FirestoreWrapper<Case>> caseList = testLoad.getAll();
+        /*synchronized (this){
+            try {
+                wait(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }*/
+        for (final FirestoreWrapper<Case> c : caseList) {
+            c.getStatus().observeForever(new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    if (integer == 2) {
+                        tex.append(c.getData().getValue().getDescription());
+                        for (String s : c.getData().getValue().getResponses()) {
+                            tex.append(" " + s);
+                        }
+                        tex.append("\n");
+                    }
+                }
+            });
+
+        }
     }
+
 }

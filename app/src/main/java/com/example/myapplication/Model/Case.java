@@ -1,5 +1,7 @@
 package com.example.myapplication.Model;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 
@@ -9,7 +11,7 @@ import com.example.myapplication.Firestore.FirestoreWrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
+
 
 public class Case extends FirestoreConnection {
 
@@ -89,96 +91,30 @@ public class Case extends FirestoreConnection {
         return wrapper;
     }
 
-    ArrayList<Case> getAll() {
-        //it's not fetching the data , then give the command for fetching it
-        if (!working)
+    public ArrayList<FirestoreWrapper<Case>> getAll() {
+        if (CaseList.size() ==0)
             loadAll();
-        //wait until everything has been loaded
-        while (!done) {
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ArrayList<Case> list = new ArrayList<>();
-        for (FirestoreWrapper<Case> c : CaseList) {
-            list.add(c.getData().getValue());
-        }
-
         //returns list of all cases in db
-        return list;
+        return CaseList;
     }
 
-    ArrayList<String> getAllDescriptions() {
-        ArrayList<String> list = new ArrayList<>();
-        if (done) {
-            for (FirestoreWrapper<Case> c : CaseList) {
-                list.add(c.getData().getValue().getDescription());
-            }
-            return list;
-        } else {
-            //it's not fetching the data , then give the command for fetching it
-            if (!working)
-                loadAll();
-            //wait until everything has been loaded
-            while (!done) {
-                try {
-                    wait(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            for (FirestoreWrapper<Case> c : CaseList) {
-                list.add(c.getData().getValue().getDescription());
-            }
-            return list;
-        }
+    public ArrayList<String> getAllDescriptions() {
+       return null;
         //returns list of descriptions from all cases in db
     }
 
     private void loadAll() {
-        working = true;
         final ArrayList<FirestoreWrapper<Case>> al = new ArrayList<>();
         Case temp = new Case();
-        while (!done) {
-            al.add(temp.load("" + counter));
-            al.get(counter).getStatus().observeForever(new Observer<Integer>() {
-                int i = counter;
-
-                @Override
-                public void onChanged(Integer integer) {
-                    if (integer == 2) {
-                        al.get(i).getStatus().removeObserver(this);
-                    }
-                    if (integer == 3)
-                        done = true;
-                    al.get(i).getStatus().removeObserver(this);
-                }
-            });
-            counter++;
-            //slow it down and give the download time to check if there are none left
-            try {
-                wait(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        //just making sure there aren't any empty ones added while the program waited for the status to be error
-        boolean clean = false;
-        for (int i = al.size() - 1; i >= 0 && !clean; i--) {
-            if (al.get(i).getData().getValue() == null) {
-                al.remove(i);
-            } else {
-                clean = true;
-            }
+        for (int i = 1; i < 3; i++) {
+            al.add(temp.load("" + i));
         }
         CaseList.addAll(al);
+
+
     }
 
-    private boolean working = false;
-    private boolean done = false;
-    private int counter = 1;
+
     private ArrayList<FirestoreWrapper<Case>> CaseList = new ArrayList<>();
+
 }

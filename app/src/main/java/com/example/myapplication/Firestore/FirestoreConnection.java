@@ -1,7 +1,5 @@
 package com.example.myapplication.Firestore;
 
-
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
