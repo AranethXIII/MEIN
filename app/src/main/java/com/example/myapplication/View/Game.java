@@ -96,13 +96,7 @@ public class Game extends AppCompatActivity {
         });*/
         Case testLoad = new Case();
         ArrayList<FirestoreWrapper<Case>> caseList = testLoad.getAll();
-        /*synchronized (this){
-            try {
-                wait(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
+
         for (final FirestoreWrapper<Case> c : caseList) {
             c.getStatus().observeForever(new Observer<Integer>() {
                 @Override
