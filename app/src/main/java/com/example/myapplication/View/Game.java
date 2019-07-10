@@ -27,7 +27,7 @@ public class Game extends AppCompatActivity {
 
         /*
         Action action=new Action();
-        action.setState("blah");
+        action.setStates("blah");
         action.setDescription("the humans are dead");
         HashMap<String, ArrayList<String>> map=new HashMap<>();
         ArrayList<String> l= new ArrayList<>();
@@ -99,7 +99,6 @@ public class Game extends AppCompatActivity {
 
         for (final FirestoreWrapper<Case> c : caseList) {
             c.getStatus().observeForever(new Observer<Integer>() {
-                @Override
                 public void onChanged(Integer integer) {
                     if (integer == 2) {
                         tex.append(c.getData().getValue().getDescription());
@@ -112,6 +111,7 @@ public class Game extends AppCompatActivity {
             });
 
         }
+        //use Scenario class for backend
     }
 
 }

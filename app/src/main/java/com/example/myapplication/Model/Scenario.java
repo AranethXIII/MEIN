@@ -1,6 +1,7 @@
 package com.example.myapplication.Model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Main Interacting Class between userinterface and programm logic
@@ -10,33 +11,37 @@ public class Scenario {
 
 //==============fields
 
-    ArrayList<Action> state; // actions/answers taken previously
+    ArrayList<Action> states; // actions/answers taken previously
     Case vcase;
+    private ArrayList<Action> answeroptions;    // selectable actions at current state
 
 //===============constr
 
     public Scenario() {
-        state = new ArrayList<Action>();
+        states = new ArrayList<Action>();
+        ArrayList<Action> answeroptions = null;
     }
 
     public Scenario(Case vcase) {
         this.vcase = vcase;
-        state = new ArrayList<Action>();
+        states = new ArrayList<Action>();
+        ArrayList<Action> answeroptions = null;
     }
 
-    public Scenario(ArrayList<Action> state, Case vcase) {
-        this.state = state;
+    public Scenario(ArrayList<Action> states, Case vcase) {
+        this.states = states;
         this.vcase = vcase;
+        ArrayList<Action> answeroptions = null;
     }
 
 //==========gettersetter
 
-    public ArrayList<Action> getState() {
-        return state;
+    public ArrayList<Action> getStates() {
+        return states;
     }
 
-    public void setState(ArrayList<Action> state) {
-        this.state = state;
+    public void setStates(ArrayList<Action> states) {
+        this.states = states;
     }
 
     public Case getVcase() {
@@ -47,25 +52,48 @@ public class Scenario {
         this.vcase = vcase;
     }
 
-//==================methods
+    public ArrayList<Action> getAnsweroptions() { return answeroptions; }
 
-    public String getcurrentState() {
-        if (state.size() > 0) {
-            return (state.get(state.size()- 1)).getState();
+    public void setAnsweroptions(ArrayList<Action> answeroptions) { this.answeroptions = answeroptions; }
+
+    //==================methods
+
+    public String[] getXAnswers(int x){  //returns first X possible answers , returns X answers and "" if not enough answers;   for gui
+        String[] sa = new String[x];
+        if (this.hasContinuation()) {
+            for (int i = 0; i < x; i++) {
+                if (answeroptions.size() <= (i + 1)) {
+                    sa[i] = answeroptions.get(i).getDescription();
+                } else {
+                    sa[i] = ""; //disable in that case
+                }
+            }
+            return sa;
         }
-        return "no state";
+
+        for (int i = 0; i < x; i++){
+            sa[i] = "";
+        }
+        return sa;
     }
 
-    public String getcurrentDescription() {
-        if (state.size() > 0) {
-            return (state.get(state.size()- 1)).getDescription();
+    public String getcurrentState() {// get state of current action
+        if (states.size() > 0) {
+            return (states.get(states.size()- 1)).getState();
+        }
+        return "no states";
+    }
+
+    public String getcurrentDescription() {//get description (action taken which lead to current state)
+        if (states.size() > 0) {
+            return (states.get(states.size()- 1)).getDescription();
         }
         return "no description";
     }
 
-    public Action getLastAction() {
-        if (state.size() > 0) {
-            return state.get(state.size() - 1);
+    public Action getLastAction() {//get last selected action
+        if (states.size() > 0) {
+            return states.get(states.size() - 1);
         }
         return null;
     }
@@ -78,28 +106,60 @@ public class Scenario {
         return false;
     }
 
-    public ArrayList<String> getContinuation(){
+    public ArrayList<String> getContinuationKeys(){ //get db - action keys for answers
         Action a = getLastAction();
         if (a != null && this.hasContinuation() ) {
-            return a.getCotinuation().get(getVcase().getDescription());
+            return a.getCotinuationList(this.getVcase().getDescription());
         }
         return null; /// or null
     }
 
-    public void addState(Action a) {
-        state.add(a);
+    public void addState(Action a) {// a = Action selected
+        states.add(a);  //add a to selection history
+        this.answeroptions = Action.dbLoadActionList(this.getContinuationKeys());//update possible new answeroptions
     }
 
-    Scenario randomScenario(){
-        //TODO
-        return null;
-        //random scenario/case out of all cases
+    public void selectAction(int i){    //index of the selected answer
+        if (this.answeroptions!=null && i<answeroptions.size() && i>=0 ) {
+            this.addState(answeroptions.get(i));
+        }
     }
 
-    Scenario choosenScenario(int index) {
-        //TODO
-        return null;
-        //choose scenario case out of listr of all cases
+    static Scenario randomScenario(){
+        int comp = Case.COUNTCASES;
+        Random rand = new Random();
+        int i = rand.nextInt(comp);
+        if(i<0 || i>=comp) {
+            return null; //out of bounce
+        }
+        Scenario scen = Scenario.choosenScenario(i);
+        return scen;
+    }
+
+
+    static Scenario choosenScenario(int i) {
+        int comp = Case.COUNTCASES;
+        if(i<0 || i>comp) {
+            return null; //out of bounce
+        }
+        Case c = Case.dbLoadCase(String.valueOf(i));
+
+        Scenario scen = Scenario.buildScenarion(c);
+        return scen;
+    }
+
+    private static Scenario buildScenarion(Case c) {
+        if(c==null) {
+            return null;
+        }
+        Scenario s = new Scenario(c);
+        int respsize = c.getResponses().size();
+        Random rand = new Random();
+        int randindex = rand.nextInt(respsize);
+        String key = c.getResponses().get(randindex);
+        Action a = Action.dbLoadAction(key);
+        s.addState(a);
+        return s;
     }
 
 }

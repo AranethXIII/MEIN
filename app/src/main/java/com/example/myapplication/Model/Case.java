@@ -15,6 +15,9 @@ import java.util.Map;
 
 public class Case extends FirestoreConnection {
 
+
+    public static final int COUNTCASES = 2; //TODO - kepp constant updated in realation to db
+
 //==============fields
 
     String description; // the emergency situation
@@ -111,10 +114,16 @@ public class Case extends FirestoreConnection {
         }
         CaseList.addAll(al);
 
-
     }
 
-
     private ArrayList<FirestoreWrapper<Case>> CaseList = new ArrayList<>();
+
+    static Case dbLoadCase(String dbkey){
+        Case c = new Case();
+
+        c = c.load(dbkey).getData().getValue();
+        //TODO - Observer
+        return c;
+    }
 
 }

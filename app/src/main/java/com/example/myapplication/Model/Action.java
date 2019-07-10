@@ -108,7 +108,7 @@ public class Action extends FirestoreConnection {
     @Override
     protected Map<String, Object> toMap(@NonNull Object objectToConvert) {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("state", this.state);
+        result.put("states", this.state);
         result.put("description", this.description);
         result.put("continuation", this.continuation);
         return result;
@@ -117,7 +117,7 @@ public class Action extends FirestoreConnection {
     @Override
     protected Object toObject(@NonNull Map map) {
         Action action = new Action();
-        action.setState((String) map.get("state"));
+        action.setState((String) map.get("states"));
         action.setDescription((String) map.get("description"));
         action.setCotinuation((HashMap<String, ArrayList<String>>) map.get("contunuation"));
         return action;
@@ -127,7 +127,47 @@ public class Action extends FirestoreConnection {
 
     @Override
     public String toString() {
-        return "Action [state=" + state + ", description=" + description + "]";
+        return "Action [states=" + state + ", description=" + description + "]";
     }
+
+    static ArrayList<String> listDescriptions(ArrayList<Action> ala) {
+        if (ala==null) {return null;}
+        ArrayList<String> als = new ArrayList<String>();
+        for (Action a: ala) {
+            als.add(a.getDescription());
+        }
+        return als;
+}
+
+    static ArrayList<String> listStates(ArrayList<Action> ala) {
+        if (ala==null) {return null;}
+        ArrayList<String> als = new ArrayList<String>();
+        for (Action a: ala) {
+            als.add(a.getState());
+        }
+        return als;
+    }
+
+
+    static Action dbLoadAction(String dbkey){
+        Action a = new Action();
+
+        a = a.load(dbkey).getData().getValue();
+        //TODO - Observer
+        return a;
+    }
+
+    static ArrayList<Action> dbLoadActionList(ArrayList<String> dbkeys) {
+        if (dbkeys==null) {return null;}
+        ArrayList<Action> ala = new ArrayList<Action>();
+        for (String key : dbkeys) {
+            //observer ?
+            ala.add(Action.dbLoadAction(key));
+        }
+        return ala;
+    }
+
+
+
 
 }
