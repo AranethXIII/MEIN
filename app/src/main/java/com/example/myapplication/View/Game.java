@@ -109,9 +109,8 @@ public class Game extends AppCompatActivity {
                     }
                 }
             });
-
         }
-        //use Scenario class for backend
+        //TODO use Model.Scenario class for backend interaction
     }
 
 }
