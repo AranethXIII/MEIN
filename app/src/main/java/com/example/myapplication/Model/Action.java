@@ -149,20 +149,28 @@ public class Action extends FirestoreConnection {
     }
 
 
-    static Action dbLoadAction(String dbkey){
-        Action a = new Action();
-
+    synchronized Action dbLoadAction(String dbkey){
+        Action a = null;
         a = a.load(dbkey).getData().getValue();
+        for (int i=0 ; i<5 || a!=null;i++){
+            if (a==null) {
+                try {
+                    wait(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         //TODO - Observer
         return a;
     }
 
-    static ArrayList<Action> dbLoadActionList(ArrayList<String> dbkeys) {
+    ArrayList<Action> dbLoadActionList(ArrayList<String> dbkeys) {
         if (dbkeys==null) {return null;}
         ArrayList<Action> ala = new ArrayList<Action>();
         for (String key : dbkeys) {
             //observer ?
-            ala.add(Action.dbLoadAction(key));
+            ala.add(dbLoadAction(key));
         }
         return ala;
     }

@@ -78,15 +78,15 @@ public class Scenario {
     }
 
     public String getcurrentState() {// get state of current action
-        if (states.size() > 0) {
-            return (states.get(states.size()- 1)).getState();
+        if (states.size() > 0 && getLastAction()!=null) {
+            return (getLastAction()).getState();
         }
         return "no states";
     }
 
     public String getcurrentDescription() {//get description (action taken which lead to current state)
-        if (states.size() > 0) {
-            return (states.get(states.size()- 1)).getDescription();
+        if (states.size() > 0 && getLastAction()!=null) {
+            return (getLastAction()).getDescription();
         }
         return "no description";
     }
@@ -97,6 +97,7 @@ public class Scenario {
         }
         return null;
     }
+
 
     public boolean hasContinuation() { // checks if situation has more steps/answers for it to be solved/solvable
         Action a = this.getLastAction();
@@ -115,8 +116,9 @@ public class Scenario {
     }
 
     public void addState(Action a) {// a = Action selected
+        if (a==null) {return;}
         states.add(a);  //add a to selection history
-        this.answeroptions = Action.dbLoadActionList(this.getContinuationKeys());//update possible new answeroptions
+        this.answeroptions = a.dbLoadActionList(this.getContinuationKeys());//update possible new answeroptions
     }
 
     public void selectAction(int i){    //index of the selected answer
@@ -142,7 +144,8 @@ public class Scenario {
         if(i<0 || i>comp) {
             return null; //out of bounce
         }
-        Case c = Case.dbLoadCase(String.valueOf(i));
+        Case c = new Case();
+        c=c.dbLoadCase(String.valueOf(i));
 
         Scenario scen = Scenario.buildScenarion(c);
         return scen;
@@ -157,7 +160,8 @@ public class Scenario {
         Random rand = new Random();
         int randindex = rand.nextInt(respsize);
         String key = c.getResponses().get(randindex);
-        Action a = Action.dbLoadAction(key);
+        Action a = new Action();
+        a=a.dbLoadAction(key);
         s.addState(a);
         return s;
     }

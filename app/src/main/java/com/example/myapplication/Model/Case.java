@@ -118,11 +118,21 @@ public class Case extends FirestoreConnection {
 
     private ArrayList<FirestoreWrapper<Case>> CaseList = new ArrayList<>();
 
-    static Case dbLoadCase(String dbkey){
-        Case c = new Case();
+    synchronized Case dbLoadCase(String dbkey){
+        Case c = null;
 
         c = c.load(dbkey).getData().getValue();
-        //TODO - Observer
+
+        for (int i=0 ; i<5 || c!=null;i++){
+            if (c==null) {
+                try {
+                    wait(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //TODO - Observer test
         return c;
     }
 
