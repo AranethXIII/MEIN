@@ -17,19 +17,26 @@ import com.example.myapplication.R;
 
 public class Game extends AppCompatActivity {
 
-    RadioGroup radioGroup= findViewById(R.id.radioGrp);
-    RadioButton aw1=findViewById(R.id.aw);
-    RadioButton aw2=findViewById(R.id.aw2);
-    RadioButton aw3=findViewById(R.id.aw3);
-    RadioButton aw4=findViewById(R.id.aw4);
-    TextView tex=findViewById(R.id.textView2);
-    Button button=findViewById(R.id.next);
+    RadioGroup radioGroup;
+    RadioButton aw1;
+    RadioButton aw2;
+    RadioButton aw3;
+    RadioButton aw4;
+    TextView tex;
+    Button button;
     Scenario scenario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        radioGroup= findViewById(R.id.radioGrp);
+        aw1=findViewById(R.id.aw);
+        aw2=findViewById(R.id.aw2);
+        aw3=findViewById(R.id.aw3);
+        aw4=findViewById(R.id.aw4);
+        tex=findViewById(R.id.textView2);
+        button=findViewById(R.id.next);
 
 
         //TODO use Model.Scenario class for backend interaction
