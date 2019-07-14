@@ -1,18 +1,5 @@
 package com.example.myapplication.Model;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-
-import com.example.myapplication.Firestore.FirestoreConnection;
-import com.example.myapplication.Firestore.FirestoreWrapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-
 import java.util.ArrayList;
 
 public class Case {
