@@ -13,15 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Case extends FirestoreConnection {
+import java.util.ArrayList;
 
+public class Case {
 
-    public static final int COUNTCASES = 2; //TODO - kepp constant updated in realation to db
+//	public static final int COUNTCASES = 2; // TODO - kepp constant updated in realation to db
 
 //==============fields
 
     String description; // the emergency situation
-    ArrayList<String> responses; // viable responses to situation
+    ArrayList<Integer> responses; // viable responses to this situation, action ids in db
 
 //==========gettersetter
 
@@ -33,107 +34,44 @@ public class Case extends FirestoreConnection {
         this.description = description;
     }
 
-    public ArrayList<String> getResponses() {
+    public ArrayList<Integer> getResponses() {
         return responses;
     }
 
-    public void setResponses(ArrayList<String> responses) {
+    public void setResponses(ArrayList<Integer> responses) {
         this.responses = responses;
     }
 
-    public void addResponse(String a) {
+    public void addResponse(int a) {
         responses.add(a);
     }
 
 //===============constr
 
+    @Override
+    public String toString() {
+        return "Case [description=" + description + "]";
+    }
+
     public Case() {
-        responses = new ArrayList<String>();
+        responses = new ArrayList<Integer>();
     }
 
     public Case(String description) {
         this.description = description;
-        responses = new ArrayList<String>();
+        responses = new ArrayList<Integer>();
     }
 
-//==============firestore methods
-
-    @Override
-    protected String getCollectionPath() {
-        return "/Case";
-    }
-
-    @Override
-    protected Map<String, Object> toMap(@NonNull Object objectToConvert) {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("description", this.description);
-        result.put("responses", this.responses);
-        return result;
-    }
-
-    @Override
-    protected Object toObject(@NonNull Map map) {
-        Case acase = new Case();
-        acase.setDescription((String) map.get("description"));
-        acase.setResponses((ArrayList<String>) map.get("responses"));
-        return acase;
-    }
-
-    public void write(String id) {
-        Case temp = new Case(this.description);
-        temp.setResponses(this.responses);
-        FirestoreWrapper<Case> wrapper = new FirestoreWrapper<>();
-        wrapper.setData(temp);
-
-        addDocument(wrapper, id);
-    }
-
-    public FirestoreWrapper<Case> load(String id) {
-        FirestoreWrapper<Case> wrapper = new FirestoreWrapper<>();
-        getDocument(wrapper, getCollectionPath() + "/" + id);
-        return wrapper;
-    }
-
-    public ArrayList<FirestoreWrapper<Case>> getAll() {
-        if (CaseList.size() ==0)
-            loadAll();
-        //returns list of all cases in db
-        return CaseList;
-    }
-
-    public ArrayList<String> getAllDescriptions() {
-       return null;
-        //returns list of descriptions from all cases in db
-    }
-
-    private void loadAll() {
-        final ArrayList<FirestoreWrapper<Case>> al = new ArrayList<>();
-        Case temp = new Case();
-        for (int i = 1; i < 3; i++) {
-            al.add(temp.load("" + i));
-        }
-        CaseList.addAll(al);
-
-    }
-
-    private ArrayList<FirestoreWrapper<Case>> CaseList = new ArrayList<>();
-
-    synchronized Case dbLoadCase(String dbkey){
+    Case dbLoadCase(int dbkey) {
         Case c = null;
 
-        c = c.load(dbkey).getData().getValue();
-
-        for (int i=0 ; i<5 || c!=null;i++){
-            if (c==null) {
-                try {
-                    wait(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        try {
+            c = DBdummy.getCase(dbkey);
+        } catch (IndexOutOfBoundsException e) {
         }
-        //TODO - Observer test
+
         return c;
     }
 
 }
+

@@ -1,5 +1,7 @@
 package com.example.myapplication.Model;
 
+//package com.example.myapplication.Model;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -70,7 +72,6 @@ public class Scenario {
             }
             return sa;
         }
-
         for (int i = 0; i < x; i++){
             sa[i] = "";
         }
@@ -107,7 +108,7 @@ public class Scenario {
         return false;
     }
 
-    public ArrayList<String> getContinuationKeys(){ //get db - action keys for answers
+    public ArrayList<Integer> getContinuationKeys(){ //get db - action keys for answers
         Action a = getLastAction();
         if (a != null && this.hasContinuation() ) {
             return a.getCotinuationList(this.getVcase().getDescription());
@@ -128,7 +129,7 @@ public class Scenario {
     }
 
     static Scenario randomScenario(){
-        int comp = Case.COUNTCASES;
+        int comp = DBdummy.countcases();
         Random rand = new Random();
         int i = rand.nextInt(comp);
         if(i<0 || i>=comp) {
@@ -140,12 +141,12 @@ public class Scenario {
 
 
     static Scenario choosenScenario(int i) {
-        int comp = Case.COUNTCASES;
+        int comp = DBdummy.countcases();
         if(i<0 || i>comp) {
             return null; //out of bounce
         }
         Case c = new Case();
-        c=c.dbLoadCase(String.valueOf(i));
+        c=c.dbLoadCase(i);
 
         Scenario scen = Scenario.buildScenarion(c);
         return scen;
@@ -159,7 +160,7 @@ public class Scenario {
         int respsize = c.getResponses().size();
         Random rand = new Random();
         int randindex = rand.nextInt(respsize);
-        String key = c.getResponses().get(randindex);
+        int key = c.getResponses().get(randindex);
         Action a = new Action();
         a=a.dbLoadAction(key);
         s.addState(a);

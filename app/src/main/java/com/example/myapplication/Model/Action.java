@@ -1,30 +1,23 @@
 package com.example.myapplication.Model;
 
-import androidx.annotation.NonNull;
-
-import com.example.myapplication.Firestore.FirestoreConnection;
-import com.example.myapplication.Firestore.FirestoreWrapper;
-
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-public class Action extends FirestoreConnection {
+public class Action {
 
 //==============fields
 
-    String dbId;
+
     String state; // situation
     String description; // action taken
-    HashMap<String, ArrayList<String>> continuation; // follow up actions
+    HashMap<String, ArrayList<Integer>> continuation; // follow up actions
 
 //==========methods
 
-    public void putContinuation(String c, String a) {        //adds follow up action for specific case
-        ArrayList<String> ala = this.continuation.get(c);
+    public void putContinuation(String c, Integer a) {        //adds follow up action for specific case
+        ArrayList<Integer> ala = this.continuation.get(c);
         if (ala == null) {
-            ala = new ArrayList<String>();
+            ala = new ArrayList<Integer>();
             ala.add(a);
             this.continuation.put(c, ala);
         } else {
@@ -32,7 +25,7 @@ public class Action extends FirestoreConnection {
         }
     }
 
-    public ArrayList<String> getCotinuationList(String c) {
+    public ArrayList<Integer> getCotinuationList(String c) {
         return continuation.get(c);
     }
     // get next Answers/Options for Case
@@ -40,24 +33,9 @@ public class Action extends FirestoreConnection {
     /**
      * writes this object into the db
      */
-    public void write(String id) {
 
-        Action action = new Action();
-        action.setState(this.state);
-        action.setDescription(this.description);
-        action.setCotinuation(this.continuation);
-        FirestoreWrapper<Action> wrapper = new FirestoreWrapper<>();
-        wrapper.setData(action);
 
-        addDocument(wrapper, id);
 
-    }
-
-    public FirestoreWrapper<Action> load(String id) {
-        FirestoreWrapper<Action> wrapper = new FirestoreWrapper<>();
-        getDocument(wrapper, getCollectionPath() + "/" + id);
-        return wrapper;
-    }
 
 // ============getter setter
 
@@ -77,50 +55,24 @@ public class Action extends FirestoreConnection {
         this.description = description;
     }
 
-    public HashMap<String, ArrayList<String>> getCotinuation() {
+    public HashMap<String, ArrayList<Integer>> getCotinuation() {
         return continuation;
     }
 
-    public void setCotinuation(HashMap<String, ArrayList<String>> h) {
+    public void setCotinuation(HashMap<String, ArrayList<Integer>> h) {
         this.continuation = h;
     }
 
 //==============constr
 
     public Action() {
-        this.continuation = new HashMap<String, ArrayList<String>>();
+        this.continuation = new HashMap<String, ArrayList<Integer>>();
     }
 
     public Action(String state, String description) {
         this.state = state;
         this.description = description;
-        this.continuation = new HashMap<String, ArrayList<String>>();
-    }
-
-
-//===========firestore methods
-
-    @Override
-    protected String getCollectionPath() {
-        return "/Action";
-    }
-
-    @Override
-    protected Map<String, Object> toMap(@NonNull Object objectToConvert) {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("states", this.state);
-        result.put("description", this.description);
-        result.put("continuation", this.continuation);
-        return result;
-    }
-
-    @Override
-    protected Object toObject(@NonNull Map map) {
-        Action action = new Action();
-        action.setState((String) map.get("states"));
-        action.setDescription((String) map.get("description"));
-        action.setCotinuation((HashMap<String, ArrayList<String>>) map.get("contunuation"));
-        return action;
+        this.continuation = new HashMap<String, ArrayList<Integer>>();
     }
 
 //==========tostring
@@ -137,7 +89,7 @@ public class Action extends FirestoreConnection {
             als.add(a.getDescription());
         }
         return als;
-}
+    }
 
     static ArrayList<String> listStates(ArrayList<Action> ala) {
         if (ala==null) {return null;}
@@ -149,33 +101,25 @@ public class Action extends FirestoreConnection {
     }
 
 
-    synchronized Action dbLoadAction(String dbkey){
+    //======
+
+    Action dbLoadAction(int key){
+        //TODO6
         Action a = null;
-        a = a.load(dbkey).getData().getValue();
-        for (int i=0 ; i<5 || a!=null;i++){
-            if (a==null) {
-                try {
-                    wait(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //TODO - Observer
+        try {
+            a = DBdummy.getAction(key);
+        } catch(IndexOutOfBoundsException e) {}
+
         return a;
     }
 
-    ArrayList<Action> dbLoadActionList(ArrayList<String> dbkeys) {
+    ArrayList<Action> dbLoadActionList(ArrayList<Integer> dbkeys) {
         if (dbkeys==null) {return null;}
         ArrayList<Action> ala = new ArrayList<Action>();
-        for (String key : dbkeys) {
-            //observer ?
+        for (int key : dbkeys) {
             ala.add(dbLoadAction(key));
         }
         return ala;
     }
-
-
-
 
 }
