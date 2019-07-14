@@ -79,7 +79,7 @@ public class Game extends AppCompatActivity {
         });
 
         fillField();
-
+/*
         Scenario s1 = Scenario.randomScenario();
 
         System.out.println(s1.getVcase());
@@ -118,7 +118,7 @@ public class Game extends AppCompatActivity {
         System.out.println(s2.getcurrentState());
         System.out.println(s2.getAnswerOptionDescriptions());
 
-
+*/
         //=======
     }
 
