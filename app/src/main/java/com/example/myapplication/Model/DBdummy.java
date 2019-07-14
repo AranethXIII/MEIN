@@ -112,7 +112,7 @@ public class DBdummy {//generic possible
         Case c1 = new Case("testcase");
 
         cl.add(c1);
-        c1.responses.add(0);
+        c1.responses.add(0);	// add indeces of action db array for answeroptions
         c1.responses.add(1);
         c1.responses.add(2);
         c1.responses.add(3);
@@ -134,7 +134,7 @@ public class DBdummy {//generic possible
         Action a33 = new Action("nit erstickt","seitenlage");
         Action a34 = new Action("nit erfroren","zu decken");
 
-        a3.putContinuation("testcase", 4);
+        a3.putContinuation("testcase", 4);		//add ideces of follow up answers for testcase of aswer/Action a3
         a3.putContinuation("testcase", 5);
         a3.putContinuation("testcase", 6);
         a3.putContinuation("testcase", 7);
@@ -148,9 +148,7 @@ public class DBdummy {//generic possible
         al.add(a33);
         al.add(a34);
 
-
         return al;
     }
 
 }
-

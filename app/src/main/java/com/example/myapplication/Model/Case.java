@@ -1,5 +1,4 @@
 package com.example.myapplication.Model;
-//package com.example.myapplication.Model;
 
 //import android.content.Context;
 

@@ -139,7 +139,7 @@ public class Scenario {
     }
 
 
-    static Scenario choosenScenario(int i) {
+    public static Scenario choosenScenario(int i) {
         int comp = DBdummy.countcases();
         if(i<0 || i>comp) {
             return null; //out of bounce
@@ -166,6 +166,14 @@ public class Scenario {
 //        a=a.dbLoadAction(key);
 //        s.addState(a);
         return s;
+    }
+
+    public ArrayList<String> getAnswerOptionDescriptions(){
+        return Action.listDescriptions(getAnsweroptions());
+    }
+
+    public ArrayList<String> getAnswerOptionStates(){
+        return Action.listStates(getAnsweroptions());
     }
 
 }

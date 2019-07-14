@@ -5,8 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Model.Scenario;
-import com.example.myapplication.Model.Action;
-import com.example.myapplication.Model.Case;
+
 import com.example.myapplication.R;
 
 
@@ -23,15 +22,9 @@ public class Game extends AppCompatActivity {
         //=======example
 
 
-
         Scenario s1 = Scenario.randomScenario();
 
-//		DBdummy.dbcases.add(new Case("test"));
-
-//		System.out.println(DBdummy.dbcases);
-
         System.out.println(s1.getVcase());
-//		System.out.println(DBdummy.getListAction(DBdummy.dbcases.get(0).getResponses()));
 
         System.out.println(s1.getAnsweroptions());
 
@@ -50,21 +43,21 @@ public class Game extends AppCompatActivity {
 
         System.out.println(s2.getVcase());
 
-        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+        System.out.println(s2.getAnswerOptionDescriptions());
 
         System.out.println("select option 3");
         s2.selectAction(2);
 
         System.out.println(s2.getcurrentDescription());
         System.out.println(s2.getcurrentState());
-        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+        System.out.println(s2.getAnswerOptionDescriptions());
 
         System.out.println("select option 1");
         s2.selectAction(0);
 
         System.out.println(s2.getcurrentDescription());
         System.out.println(s2.getcurrentState());
-        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+        System.out.println(s2.getAnswerOptionDescriptions());
 
         //=======
     }
