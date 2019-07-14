@@ -1,5 +1,5 @@
 package com.example.myapplication.Model;
-
+//package com.example.myapplication.Model;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,7 +101,7 @@ public class Scenario {
 
     public boolean hasContinuation() { // checks if situation has more steps/answers for it to be solved/solvable
         Action a = this.getLastAction();
-        if (a != null && a.getCotinuationList(vcase.getDescription()).size() > 0) {
+        if (a != null && a.getCotinuationList(vcase.getDescription()) != null &&a.getCotinuationList(vcase.getDescription()).size() > 0) {
             return true;
         }
         return false;
@@ -127,7 +127,7 @@ public class Scenario {
         }
     }
 
-    static Scenario randomScenario(){
+    public static Scenario randomScenario(){
         int comp = DBdummy.countcases();
         Random rand = new Random();
         int i = rand.nextInt(comp);
@@ -156,13 +156,15 @@ public class Scenario {
             return null;
         }
         Scenario s = new Scenario(c);
-        int respsize = c.getResponses().size();
-        Random rand = new Random();
-        int randindex = rand.nextInt(respsize);
-        int key = c.getResponses().get(randindex);
-        Action a = new Action();
-        a=a.dbLoadAction(key);
-        s.addState(a);
+        s.setAnsweroptions(DBdummy.getListAction(c.getResponses()));
+
+//        int respsize = c.getResponses().size();
+//        Random rand = new Random();
+//        int randindex = rand.nextInt(respsize);
+//        int key = c.getResponses().get(randindex);
+//        Action a = new Action();
+//        a=a.dbLoadAction(key);
+//        s.addState(a);
         return s;
     }
 

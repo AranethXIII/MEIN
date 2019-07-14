@@ -99,25 +99,57 @@ public class DBdummy {//generic possible
 //	}
 
     static ArrayList<Case> initCasesDB() {
-        ArrayList<Case> c = new ArrayList<Case>();
+        ArrayList<Case> cl = new ArrayList<Case>();
 
-        //TODO init the db
-        String sa[] = {"case1","case2","case3"};
-        //case description
+//		//TODO init the db
+//		String sa[] = {"case1","case2","case3"};
+//		//case description
+//
+//		for(String s : sa) {
+//			c.add(new Case(s));
+//		}
 
-        for(String s : sa) {
-            c.add(new Case(s));
-        }
+        Case c1 = new Case("testcase");
 
-        return c;
+        cl.add(c1);
+        c1.responses.add(0);
+        c1.responses.add(1);
+        c1.responses.add(2);
+        c1.responses.add(3);
+
+        return cl;
     }
 
     static ArrayList<Action> initActionsDB() {
-        ArrayList<Action> a = new ArrayList<Action>();
+        ArrayList<Action> al = new ArrayList<Action>();
 
-        //TODO init the db
 
-        return a;
+        Action a1 = new Action("is tot","einfach weitergehen");
+        Action a2 = new Action("is tot","gaffen");
+        Action a3 = new Action("lebt noch","hilfe leisten");
+        Action a4 = new Action("is tot","nen andere machts schon");
+
+        Action a31 = new Action("volle genesung","absulut das richtige mmachen");
+        Action a32 = new Action("nit tot","crm");
+        Action a33 = new Action("nit erstickt","seitenlage");
+        Action a34 = new Action("nit erfroren","zu decken");
+
+        a3.putContinuation("testcase", 4);
+        a3.putContinuation("testcase", 5);
+        a3.putContinuation("testcase", 6);
+        a3.putContinuation("testcase", 7);
+
+        al.add(a1);
+        al.add(a2);
+        al.add(a3);
+        al.add(a4);
+        al.add(a31);
+        al.add(a32);
+        al.add(a33);
+        al.add(a34);
+
+
+        return al;
     }
 
 }

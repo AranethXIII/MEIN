@@ -4,7 +4,11 @@ package com.example.myapplication.View;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.Model.Scenario;
+import com.example.myapplication.Model.Action;
+import com.example.myapplication.Model.Case;
 import com.example.myapplication.R;
+
 
 public class Game extends AppCompatActivity {
 
@@ -15,6 +19,54 @@ public class Game extends AppCompatActivity {
 
 
         //TODO use Model.Scenario class for backend interaction
+
+        //=======example
+
+
+
+        Scenario s1 = Scenario.randomScenario();
+
+//		DBdummy.dbcases.add(new Case("test"));
+
+//		System.out.println(DBdummy.dbcases);
+
+        System.out.println(s1.getVcase());
+//		System.out.println(DBdummy.getListAction(DBdummy.dbcases.get(0).getResponses()));
+
+        System.out.println(s1.getAnsweroptions());
+
+        System.out.println("select option 1");
+        s1.selectAction(0);
+
+        System.out.println(s1.getcurrentDescription());
+        System.out.println(s1.getcurrentState());
+        System.out.println(s1.getAnsweroptions());
+
+        System.out.println();
+
+        System.out.println("Scenario 2");
+
+        Scenario s2 = Scenario.randomScenario();
+
+        System.out.println(s2.getVcase());
+
+        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+
+        System.out.println("select option 3");
+        s2.selectAction(2);
+
+        System.out.println(s2.getcurrentDescription());
+        System.out.println(s2.getcurrentState());
+        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+
+        System.out.println("select option 1");
+        s2.selectAction(0);
+
+        System.out.println(s2.getcurrentDescription());
+        System.out.println(s2.getcurrentState());
+        System.out.println(Action.listDescriptions(s2.getAnsweroptions()));
+
+        //=======
     }
 
 }

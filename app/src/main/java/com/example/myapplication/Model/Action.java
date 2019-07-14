@@ -1,5 +1,10 @@
 package com.example.myapplication.Model;
 
+//import androidx.annotation.NonNull;
+
+//import com.example.myapplication.Firestore.FirestoreConnection;
+//import com.example.myapplication.Firestore.FirestoreWrapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,10 +40,7 @@ public class Action {
      */
 
 
-
-
 // ============getter setter
-
     public String getState() {
         return state;
     }
@@ -82,19 +84,23 @@ public class Action {
         return "Action [states=" + state + ", description=" + description + "]";
     }
 
-    static ArrayList<String> listDescriptions(ArrayList<Action> ala) {
-        if (ala==null) {return null;}
+    public static ArrayList<String> listDescriptions(ArrayList<Action> ala) {
+        if (ala == null) {
+            return null;
+        }
         ArrayList<String> als = new ArrayList<String>();
-        for (Action a: ala) {
+        for (Action a : ala) {
             als.add(a.getDescription());
         }
         return als;
     }
 
     static ArrayList<String> listStates(ArrayList<Action> ala) {
-        if (ala==null) {return null;}
+        if (ala == null) {
+            return null;
+        }
         ArrayList<String> als = new ArrayList<String>();
-        for (Action a: ala) {
+        for (Action a : ala) {
             als.add(a.getState());
         }
         return als;
@@ -103,18 +109,21 @@ public class Action {
 
     //======
 
-    Action dbLoadAction(int key){
+    Action dbLoadAction(int key) {
         //TODO6
         Action a = null;
         try {
             a = DBdummy.getAction(key);
-        } catch(IndexOutOfBoundsException e) {}
+        } catch (IndexOutOfBoundsException e) {
+        }
 
         return a;
     }
 
     ArrayList<Action> dbLoadActionList(ArrayList<Integer> dbkeys) {
-        if (dbkeys==null) {return null;}
+        if (dbkeys == null) {
+            return null;
+        }
         ArrayList<Action> ala = new ArrayList<Action>();
         for (int key : dbkeys) {
             ala.add(dbLoadAction(key));
