@@ -1,4 +1,10 @@
 package com.example.myapplication.Model;
+//package com.example.myapplication.Model;
+
+//import androidx.annotation.NonNull;
+
+//import com.example.myapplication.Firestore.FirestoreConnection;
+//import com.example.myapplication.Firestore.FirestoreWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +88,7 @@ public class Action {
         return "Action [states=" + state + ", description=" + description + "]";
     }
 
-    static ArrayList<String> listDescriptions(ArrayList<Action> ala) {
+    public static ArrayList<String> listDescriptions(ArrayList<Action> ala) {
         if (ala==null) {return null;}
         ArrayList<String> als = new ArrayList<String>();
         for (Action a: ala) {
@@ -91,7 +97,7 @@ public class Action {
         return als;
     }
 
-    static ArrayList<String> listStates(ArrayList<Action> ala) {
+    public static ArrayList<String> listStates(ArrayList<Action> ala) {
         if (ala==null) {return null;}
         ArrayList<String> als = new ArrayList<String>();
         for (Action a: ala) {
