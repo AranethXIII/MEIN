@@ -30,25 +30,43 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        radioGroup= findViewById(R.id.radioGrp);
-        aw1=findViewById(R.id.aw);
-        aw2=findViewById(R.id.aw2);
-        aw3=findViewById(R.id.aw3);
-        aw4=findViewById(R.id.aw4);
-        tex=findViewById(R.id.textView2);
-        button=findViewById(R.id.next);
+        radioGroup = findViewById(R.id.radioGrp);
+        aw1 = findViewById(R.id.aw);
+        aw2 = findViewById(R.id.aw2);
+        aw3 = findViewById(R.id.aw3);
+        aw4 = findViewById(R.id.aw4);
+        tex = findViewById(R.id.textView2);
+        button = findViewById(R.id.next);
 
 
         //TODO use Model.Scenario class for backend interaction
 
         //=======example
 
-        scenario=Scenario.randomScenario();
+        scenario = Scenario.randomScenario();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(radioGroup.getCheckedRadioButtonId() !=-1) {
-                    scenario.selectAction(radioGroup.getCheckedRadioButtonId());
+
+                if (radioGroup.getCheckedRadioButtonId() != -1) {
+                    int ans=-1;
+                    if(aw1.isChecked()) ans=0;
+                    if(aw2.isChecked()) ans=1;
+                    if(aw3.isChecked()) ans=2;
+                    if(aw4.isChecked()) ans=3;
+                    scenario.selectAction(ans);
+                    if (scenario.getAnsweroptions()==null) {
+                        tex.setText(scenario.getcurrentState());
+                        aw1.setVisibility(View.INVISIBLE);
+                        aw2.setVisibility(View.INVISIBLE);
+                        aw3.setVisibility(View.INVISIBLE);
+                        aw4.setVisibility(View.INVISIBLE);
+                        scenario=Scenario.randomScenario();
+                    }else{
+                        if(!scenario.hasContinuation())
+                            scenario=Scenario.randomScenario();
+                        fillField();
+                    }
                 }
             }
         });
@@ -97,11 +115,21 @@ public class Game extends AppCompatActivity {
         //=======
     }
 
-    void fillField(){
+    void fillField() {
         tex.setText(scenario.getVcase().getDescription());
         aw1.setText(scenario.getAnswerOptionDescriptions().get(0));
         aw2.setText(scenario.getAnswerOptionDescriptions().get(1));
         aw3.setText(scenario.getAnswerOptionDescriptions().get(2));
         aw4.setText(scenario.getAnswerOptionDescriptions().get(3));
+
+        aw1.setVisibility(View.VISIBLE);
+        aw2.setVisibility(View.VISIBLE);
+        aw3.setVisibility(View.VISIBLE);
+        aw4.setVisibility(View.VISIBLE);
+
+        aw1.setChecked(false);
+        aw2.setChecked(false);
+        aw3.setChecked(false);
+        aw4.setChecked(false);
     }
 }
