@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.Model.Scenario;
 import com.example.myapplication.R;
 public class Game extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class Game extends AppCompatActivity {
 
         final TextView tex = findViewById(R.id.textView2);
 
-
+        Scenario scenario;
 
         //TODO use Model.Scenario class for backend interaction
     }
