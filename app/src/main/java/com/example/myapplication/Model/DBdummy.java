@@ -129,12 +129,12 @@ public class DBdummy {//generic possible
         Action a3 = new Action("lebt noch","hilfe leisten");
         Action a4 = new Action("is tot","nen andere machts schon");
 
-        Action a31 = new Action("volle genesung","absulut das richtige mmachen");
+        Action a31 = new Action("volle genesung","absulut das richtige machen");
         Action a32 = new Action("nit tot","crm");
         Action a33 = new Action("nit erstickt","seitenlage");
         Action a34 = new Action("nit erfroren","zu decken");
 
-        a3.putContinuation("testcase", 4);		//add ideces of follow up answers for testcase of aswer/Action a3
+        a3.putContinuation("testcase", 4);		//add indeces of follow up answers for testcase of answer/Action a3
         a3.putContinuation("testcase", 5);
         a3.putContinuation("testcase", 6);
         a3.putContinuation("testcase", 7);

@@ -2,6 +2,8 @@ package com.example.myapplication.View;
 
 
 import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Model.Scenario;
@@ -15,6 +17,7 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
 
 
         //TODO use Model.Scenario class for backend interaction
@@ -58,6 +61,7 @@ public class Game extends AppCompatActivity {
         System.out.println(s2.getcurrentDescription());
         System.out.println(s2.getcurrentState());
         System.out.println(s2.getAnswerOptionDescriptions());
+
 
         //=======
     }
