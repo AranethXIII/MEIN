@@ -25,6 +25,7 @@ public class Game extends AppCompatActivity {
     TextView tex;
     Button button;
     Scenario scenario;
+    private boolean done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class Game extends AppCompatActivity {
         aw4 = findViewById(R.id.aw4);
         tex = findViewById(R.id.textView2);
         button = findViewById(R.id.next);
-
+        done =false;
 
         //TODO use Model.Scenario class for backend interaction
 
@@ -48,6 +49,12 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if(done){
+                    scenario=Scenario.randomScenario();
+                    System.out.println("---------new Scenario------------");
+                    fillField();
+                    done=false;
+                }
                 if (radioGroup.getCheckedRadioButtonId() != -1) {
                     int ans=-1;
                     if(aw1.isChecked()) ans=0;
@@ -55,16 +62,16 @@ public class Game extends AppCompatActivity {
                     if(aw3.isChecked()) ans=2;
                     if(aw4.isChecked()) ans=3;
                     scenario.selectAction(ans);
+
                     if (scenario.getAnsweroptions()==null) {
                         tex.setText(scenario.getcurrentState());
                         aw1.setVisibility(View.INVISIBLE);
                         aw2.setVisibility(View.INVISIBLE);
                         aw3.setVisibility(View.INVISIBLE);
                         aw4.setVisibility(View.INVISIBLE);
-                        scenario=Scenario.randomScenario();
+                        done=true;
+
                     }else{
-                        if(!scenario.hasContinuation())
-                            scenario=Scenario.randomScenario();
                         fillField();
                     }
                 }
@@ -121,6 +128,7 @@ public class Game extends AppCompatActivity {
         aw2.setText(scenario.getAnswerOptionDescriptions().get(1));
         aw3.setText(scenario.getAnswerOptionDescriptions().get(2));
         aw4.setText(scenario.getAnswerOptionDescriptions().get(3));
+
 
         aw1.setVisibility(View.VISIBLE);
         aw2.setVisibility(View.VISIBLE);
