@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 
-
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,16 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button but=findViewById(R.id.start_game);
-
-        but.setOnClickListener(new View.OnClickListener() {
+        Button start = findViewById(R.id.start_game);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),Game.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Game.class));
             }
         });
-
-
     }
 }
