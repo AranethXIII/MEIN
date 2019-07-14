@@ -6,7 +6,6 @@ import java.util.Random;
 
 /**
  * Main Interacting Class between userinterface and programm logic
- *
  */
 public class Scenario {
 
@@ -53,13 +52,17 @@ public class Scenario {
         this.vcase = vcase;
     }
 
-    public ArrayList<Action> getAnsweroptions() { return answeroptions; }
+    public ArrayList<Action> getAnsweroptions() {
+        return answeroptions;
+    }
 
-    public void setAnsweroptions(ArrayList<Action> answeroptions) { this.answeroptions = answeroptions; }
+    public void setAnsweroptions(ArrayList<Action> answeroptions) {
+        this.answeroptions = answeroptions;
+    }
 
     //==================methods
 
-    public String[] getXAnswers(int x){  //returns first X possible answers , returns X answers and "" if not enough answers;   for gui
+    public String[] getXAnswers(int x) {  //returns first X possible answers , returns X answers and "" if not enough answers;   for gui
         String[] sa = new String[x];
         if (this.hasContinuation()) {
             for (int i = 0; i < x; i++) {
@@ -71,21 +74,21 @@ public class Scenario {
             }
             return sa;
         }
-        for (int i = 0; i < x; i++){
+        for (int i = 0; i < x; i++) {
             sa[i] = "";
         }
         return sa;
     }
 
     public String getcurrentState() {// get state of current action
-        if (states.size() > 0 && getLastAction()!=null) {
+        if (states.size() > 0 && getLastAction() != null) {
             return (getLastAction()).getState();
         }
         return "no states";
     }
 
     public String getcurrentDescription() {//get description (action taken which lead to current state)
-        if (states.size() > 0 && getLastAction()!=null) {
+        if (states.size() > 0 && getLastAction() != null) {
             return (getLastAction()).getDescription();
         }
         return "no description";
@@ -100,38 +103,41 @@ public class Scenario {
 
 
     public boolean hasContinuation() { // checks if situation has more steps/answers for it to be solved/solvable
+        if (vcase.getResponses().size() > 0 && states.size() == 0) return true;
         Action a = this.getLastAction();
-        if (a != null && a.getCotinuationList(vcase.getDescription()) != null &&a.getCotinuationList(vcase.getDescription()).size() > 0) {
+        if (a != null && a.getCotinuationList(vcase.getDescription()) != null && a.getCotinuationList(vcase.getDescription()).size() > 0) {
             return true;
         }
         return false;
     }
 
-    public ArrayList<Integer> getContinuationKeys(){ //get db - action keys for answers
+    public ArrayList<Integer> getContinuationKeys() { //get db - action keys for answers
         Action a = getLastAction();
-        if (a != null && this.hasContinuation() ) {
+        if (a != null && this.hasContinuation()) {
             return a.getCotinuationList(this.getVcase().getDescription());
         }
         return null; /// or null
     }
 
     public void addState(Action a) {// a = Action selected
-        if (a==null) {return;}
+        if (a == null) {
+            return;
+        }
         states.add(a);  //add a to selection history
         this.answeroptions = a.dbLoadActionList(this.getContinuationKeys());//update possible new answeroptions
     }
 
-    public void selectAction(int i){    //index of the selected answer
-        if (this.answeroptions!=null && i<answeroptions.size() && i>=0 ) {
+    public void selectAction(int i) {    //index of the selected answer
+        if (this.answeroptions != null && i < answeroptions.size() && i >= 0) {
             this.addState(answeroptions.get(i));
         }
     }
 
-    public static Scenario randomScenario(){
+    public static Scenario randomScenario() {
         int comp = DBdummy.countcases();
         Random rand = new Random();
         int i = rand.nextInt(comp);
-        if(i<0 || i>=comp) {
+        if (i < 0 || i >= comp) {
             return null; //out of bounce
         }
         Scenario scen = Scenario.choosenScenario(i);
@@ -141,18 +147,18 @@ public class Scenario {
 
     public static Scenario choosenScenario(int i) {
         int comp = DBdummy.countcases();
-        if(i<0 || i>comp) {
+        if (i < 0 || i > comp) {
             return null; //out of bounce
         }
         Case c = new Case();
-        c=c.dbLoadCase(i);
+        c = c.dbLoadCase(i);
 
         Scenario scen = Scenario.buildScenarion(c);
         return scen;
     }
 
     private static Scenario buildScenarion(Case c) {
-        if(c==null) {
+        if (c == null) {
             return null;
         }
         Scenario s = new Scenario(c);
@@ -168,11 +174,11 @@ public class Scenario {
         return s;
     }
 
-    public ArrayList<String> getAnswerOptionDescriptions(){
+    public ArrayList<String> getAnswerOptionDescriptions() {
         return Action.listDescriptions(getAnsweroptions());
     }
 
-    public ArrayList<String> getAnswerOptionStates(){
+    public ArrayList<String> getAnswerOptionStates() {
         return Action.listStates(getAnsweroptions());
     }
 

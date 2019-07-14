@@ -2,7 +2,11 @@ package com.example.myapplication.View;
 
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,17 +17,36 @@ import com.example.myapplication.R;
 
 public class Game extends AppCompatActivity {
 
+    RadioGroup radioGroup= findViewById(R.id.radioGrp);
+    RadioButton aw1=findViewById(R.id.aw);
+    RadioButton aw2=findViewById(R.id.aw2);
+    RadioButton aw3=findViewById(R.id.aw3);
+    RadioButton aw4=findViewById(R.id.aw4);
+    TextView tex=findViewById(R.id.textView2);
+    Button button=findViewById(R.id.next);
+    Scenario scenario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
 
-
         //TODO use Model.Scenario class for backend interaction
 
         //=======example
 
+        scenario=Scenario.randomScenario();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(radioGroup.getCheckedRadioButtonId() !=-1) {
+                    scenario.selectAction(radioGroup.getCheckedRadioButtonId());
+                }
+            }
+        });
+
+        fillField();
 
         Scenario s1 = Scenario.randomScenario();
 
@@ -37,6 +60,7 @@ public class Game extends AppCompatActivity {
         System.out.println(s1.getcurrentDescription());
         System.out.println(s1.getcurrentState());
         System.out.println(s1.getAnsweroptions());
+
 
         System.out.println();
 
@@ -66,4 +90,11 @@ public class Game extends AppCompatActivity {
         //=======
     }
 
+    void fillField(){
+        tex.setText(scenario.getVcase().getDescription());
+        aw1.setText(scenario.getAnswerOptionDescriptions().get(0));
+        aw2.setText(scenario.getAnswerOptionDescriptions().get(1));
+        aw3.setText(scenario.getAnswerOptionDescriptions().get(2));
+        aw4.setText(scenario.getAnswerOptionDescriptions().get(3));
+    }
 }
