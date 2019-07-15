@@ -118,6 +118,11 @@ public class Game extends AppCompatActivity {
         tex.setText(scenario.getVcase().getDescription());
 
         mTTS.speak(scenario.getVcase().getDescription(),TextToSpeech.QUEUE_FLUSH,null);
+        mTTS.speak(scenario.getAnswerOptionDescriptions().get(0),TextToSpeech.QUEUE_ADD,null);
+        mTTS.speak(scenario.getAnswerOptionDescriptions().get(1),TextToSpeech.QUEUE_ADD,null);
+        mTTS.speak(scenario.getAnswerOptionDescriptions().get(2),TextToSpeech.QUEUE_ADD,null);
+        mTTS.speak(scenario.getAnswerOptionDescriptions().get(3),TextToSpeech.QUEUE_ADD,null);
+
         aw1.setText(scenario.getAnswerOptionDescriptions().get(0));
         aw2.setText(scenario.getAnswerOptionDescriptions().get(1));
         aw3.setText(scenario.getAnswerOptionDescriptions().get(2));
