@@ -84,6 +84,9 @@ public class Scenario {
         if (states.size() > 0 && getLastAction() != null) {
             return (getLastAction()).getState();
         }
+        if(vcase!=null){
+            return vcase.description;
+        }
         return "no states";
     }
 

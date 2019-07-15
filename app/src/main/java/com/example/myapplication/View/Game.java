@@ -115,7 +115,9 @@ public class Game extends AppCompatActivity {
 
 
     void fillField() {
-        tex.setText(scenario.getVcase().getDescription());
+
+
+        tex.setText(scenario.getcurrentState());
 
         mTTS.speak(scenario.getVcase().getDescription(),TextToSpeech.QUEUE_FLUSH,null);
         mTTS.speak(scenario.getAnswerOptionDescriptions().get(0),TextToSpeech.QUEUE_ADD,null);
