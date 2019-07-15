@@ -1,1 +1,5 @@
 include ':app'
+include 'marytts-builder-5.2.jar-with-dependencies'
+include 'marytts-lang-de-5.2'
+include 'marytts-lang-en-5.2'
+include 'tritonus-share-0.3.7-2'
